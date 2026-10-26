@@ -37842,7 +37842,7 @@ function renderFeed() {
   }
   const outroHtml = buildOutro();
   const list = feedWorks.map((d, i) => `<li><button type="button" data-i="${i}">${String(i + 1).padStart(2, "0")} ${esc(dxT(d, "name") || "\uC774\uB984 \uC5C6\uB294 \uC791\uD488")}</button></li>`).join("");
-  feedEl.innerHTML = `<div class="ed-top"><span class="ed-top-l"><span class="gl-hover">Works</span><span class="pt-inline"><i class="dot-live"></i>Live index</span><button type="button" class="ui-txt ed-open-flow">\uD750\uB984\uC73C\uB85C \uBCF4\uAE30 \u2192</button><button type="button" class="ui-txt ed-open-memo">메모 보드 →</button><button type="button" class="ui-txt ed-open-play">놀이터 →</button></span><span class="ed-top-r"><button type="button" class="ui-txt ed-open-about" data-ab>← JH</button><span>${feedWorks.length}</span></span></div>
+  feedEl.innerHTML = `<div class="ed-top"><span class="ed-top-l"><span class="gl-hover">Works</span><span class="pt-inline"><i class="dot-live"></i>Live index</span><button type="button" class="ui-txt ed-open-flow">\uD750\uB984\uC73C\uB85C \uBCF4\uAE30 \u2192</button><button type="button" class="ui-txt ed-open-memo">메모 보드 →</button><span class="ed-brk" aria-hidden="true"></span><button type="button" class="ui-txt ed-open-play">놀이터 →</button></span><span class="ed-top-r"><button type="button" class="ui-txt ed-open-about" data-ab>← JH</button><span>${feedWorks.length}</span></span></div>
     <div class="ed-grid">
       <div class="ed-info" data-part="info"></div>
       <div class="ed-idxwrap"><nav class="ed-cats" aria-label="카테고리"></nav><ol class="ed-index">${list}</ol></div>
@@ -37852,9 +37852,9 @@ function renderFeed() {
 <footer class="ft"><div class="ft-marq" aria-hidden="true"><div class="ft-marq-in"><span>PARK JUN HEE \xB7 3D STUDIO \xB7 WORKS 2026</span><span>PARK JUN HEE \xB7 3D STUDIO \xB7 WORKS 2026</span><span>PARK JUN HEE \xB7 3D STUDIO \xB7 WORKS 2026</span><span>PARK JUN HEE \xB7 3D STUDIO \xB7 WORKS 2026</span></div></div><div class="ft-in">
       <div class="ft-cols">
         <div><h4>Works</h4><ul><li><button type="button" class="ft-link" data-act="works">Works list</button></li><li><button type="button" class="ft-link" data-act="flow">Flow view</button></li><li><button type="button" class="ft-link" data-act="world">3D space</button></li></ul></div>
-        <div><h4>About</h4><ul><li><span>One-line intro</span></li><li><span>Tools</span></li></ul></div>
-        <div><h4>Contact</h4><ul><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Email</a></li><li><a class="ft-link" href="https://www.instagram.com/zcmmmt/" target="_blank" rel="noopener">Instagram</a></li><li><span>Design account</span></li></ul></div>
-        <div><h4>Project</h4><ul><li><span>Project intro</span></li><li><span>Progress</span></li><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Get in touch</a></li></ul></div>
+        <div><h4>About</h4><ul><li><button type="button" class="ft-link" data-ab>One-line intro</button></li></ul></div>
+        <div><h4>Contact</h4><ul><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Email</a></li><li><a class="ft-link" href="https://www.instagram.com/zcmmmt/" target="_blank" rel="noopener">Instagram</a></li><li><a class="ft-link" href="https://www.instagram.com/jun_zun/" target="_blank" rel="noopener">Design account</a></li></ul></div>
+        <div><h4>Project</h4><ul><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Get in touch</a></li></ul></div>
       </div>
       <div class="ft-bot"><span>\xA9 2026 park junhee</span><span class="pt-inline">Made with light &amp; motion <span class="m-ast">\u2733</span></span><button type="button" class="ft-link" data-act="top">Back to top \u2191</button></div>
     </div></footer>
@@ -39152,7 +39152,7 @@ function startFlow(canvas, items2, onPick) {
   let unit = 1, wpp = 0.01;                      // wpp = world units per css px at z = 0
   const size = () => {
     const w = box.clientWidth || innerWidth, h = box.clientHeight || innerHeight;
-    D = w / h < 0.9 ? 26 : 11;
+    D = w / h < 0.9 ? 40 : 11;
     cam.position.set(0, 0, D);
     renderer2.setSize(w, h, false);
     cam.aspect = w / h;
@@ -40128,6 +40128,48 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   #intro .ed-top { justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
   #intro .ed-top-l { display: contents; }
   #intro .ed-top-r { display: flex; align-items: center; gap: 16px; margin-left: 0; }
+}
+</style><style id="v151">
+@media (max-width: 900px) {
+  #intro .ed-brk { flex-basis: 100%; height: 0; display: block; }
+  #intro .ed-top { font-size: 11px; gap: 10px 12px; }
+  #intro .ed-top-l .ui-txt { font-size: 11px; }
+}
+</style><style id="v152">
+
+/* v152: 메모 — 이름·닉네임을 안 썼으면 보기 화면에서 칸 자체를 숨김 */
+#memoBoard .mb-name:placeholder-shown:not(:focus) { display: none !important; }
+/* v152: 푸터 — 줄바꿈 없이 정리 */
+.ft-bot { flex-wrap: wrap; gap: 8px 14px; }
+.ft-bot > span, .ft-bot > button { white-space: nowrap; }
+</style>
+<script>
+/* v152: 작품 상세 — 제목·설명이 이미지 바로 밑에 오도록 따라가기 */
+(function () {
+  function follow() {
+    var win = document.getElementById("winWork");
+    if (win && win.classList.contains("show")) {
+      var h = win.querySelector(".wk-hero"), info = win.querySelector(".wk-info");
+      if (h && info) {
+        var r = h.getBoundingClientRect();
+        if (r.height > 0) {
+          var narrow = innerWidth <= 760, gap = narrow ? 16 : 18;
+          if (narrow) { info.style.left = "6vw"; info.style.right = "6vw"; info.style.width = "auto"; }
+          else { info.style.left = r.left + "px"; info.style.right = "auto"; info.style.width = Math.max(r.width, 320) + "px"; }
+          info.style.top = (r.bottom + gap) + "px";
+          info.style.bottom = "auto";
+          info.style.maxHeight = Math.max(120, innerHeight - r.bottom - gap - 14) + "px";
+        }
+      }
+    }
+    requestAnimationFrame(follow);
+  }
+  requestAnimationFrame(follow);
+})();
+</script>
+<style id="v152m">
+@media (max-width: 900px) {
+  #intro .ed-top-r { margin-left: auto; }
 }
 </style></body>
 </html>

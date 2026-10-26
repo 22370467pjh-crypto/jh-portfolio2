@@ -40351,7 +40351,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 (function () {
   function follow() {
     var win = document.getElementById("winWork");
-    if (win && win.classList.contains("show")) {
+    if (innerWidth <= 900 && win && win.classList.contains("show")) {
       var h = win.querySelector(".wk-hero"), info = win.querySelector(".wk-info");
       if (h && info) {
         var r = h.getBoundingClientRect();
@@ -40444,5 +40444,15 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   requestAnimationFrame(tick);
 })();
 </script>
+
+<style id="v161">
+/* v161: 넓은 화면(데스크탑 브라우저로 열 때)도 데스크탑과 같은 한 줄 배치 */
+@media (min-width: 901px) {
+  #intro .ed-top { justify-content: flex-start; }
+  #intro .ed-top-l { display: flex; align-items: center; gap: 14px; }
+  #intro .ed-top-m { display: flex; align-items: center; gap: 14px; margin-left: 14px; }
+  #intro .ed-top-r { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+}
+</style>
 </body>
 </html>

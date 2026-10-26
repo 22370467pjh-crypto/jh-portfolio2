@@ -40137,8 +40137,8 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 }
 </style><style id="v152">
 
-/* v152: 메모 — 이름·닉네임을 안 썼으면 보기 화면에서 칸 자체를 숨김 */
-#memoBoard .mb-name:placeholder-shown:not(:focus) { display: none !important; }
+/* v154: 메모 — 보기 모드(readonly)에서 이름·닉네임을 안 썼으면 칸 숨김. 작성·수정 중에는 그대로 보임 */
+#memoBoard .mb-name[readonly]:placeholder-shown { display: none !important; }
 /* v152: 푸터 — 줄바꿈 없이 정리 */
 .ft-bot { flex-wrap: wrap; gap: 8px 14px; }
 .ft-bot > span, .ft-bot > button { white-space: nowrap; }
@@ -40171,5 +40171,20 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 @media (max-width: 900px) {
   #intro .ed-top-r { margin-left: auto; }
 }
-</style></body>
+</style>
+<style id="v153">
+/* v153: 모바일 — 작품 목록의 JH 링크 숨김, 맨 위로 버튼은 오른쪽 */
+@media (max-width: 900px) {
+  #intro .ed-open-about { display: none !important; }
+  #intro .ft-bot > button[data-act="top"] { margin-left: auto; text-align: right; }
+}
+/* v153: 가로 모드 차단 — 휴대폰을 가로로 돌리면 세로로 돌려 달라는 안내만 보임 */
+#rotLock { position: fixed; inset: 0; z-index: 2147483647; background: #fff; color: #111; display: none; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: 'Inter', 'Noto Sans KR', sans-serif; }
+#rotLock p { margin: 0; font-size: 15px; line-height: 1.6; }
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  #rotLock { display: flex; }
+}
+</style>
+<div id="rotLock" role="alert"><p>세로 모드로 돌려서 봐주세요.<br>Please rotate your phone to portrait.</p></div>
+</body>
 </html>

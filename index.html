@@ -38571,7 +38571,8 @@ function startPlay(canvas) {
     const w = innerWidth, h = innerHeight;
     renderer.setSize(w, h, false);
     cam.aspect = w / h;
-    const dist = w / h < 0.9 ? 18 : 12;
+    // 휴대폰 세로 화면도 PC와 같은 거리: 던진 공이 골대까지 닿도록
+    const dist = 12;
     cam.position.set(0, 1.6, dist);
     cam.lookAt(0, 0.6, 0);
     cam.updateProjectionMatrix();
@@ -39079,7 +39080,7 @@ function startFlow(canvas, items2, onPick) {
   renderer2.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer2.setClearColor(15461355, 1);
   const scene2 = new Scene();
-  const D = 11;                                  // camera distance; cards sit around z = 0
+  let D = 11;                                  // camera distance; cards sit around z = 0
   const cam = new PerspectiveCamera(30, 1, 0.1, 300);
   cam.position.set(0, 0, D);
   const loader = new TextureLoader();
@@ -39151,6 +39152,8 @@ function startFlow(canvas, items2, onPick) {
   let unit = 1, wpp = 0.01;                      // wpp = world units per css px at z = 0
   const size = () => {
     const w = box.clientWidth || innerWidth, h = box.clientHeight || innerHeight;
+    D = w / h < 0.9 ? 26 : 11;
+    cam.position.set(0, 0, D);
     renderer2.setSize(w, h, false);
     cam.aspect = w / h;
     cam.updateProjectionMatrix();
@@ -39986,7 +39989,7 @@ three/build/three.module.js:
 (function () {
   var intro = document.getElementById("intro"), cta = document.getElementById("introEnter");
   if (!intro || !cta) return;
-  document.body.appendChild(cta);
+  intro.insertBefore(cta, intro.firstChild);
   function sync() {
     var hidden = intro.classList.contains("intro-hide") || intro.scrollTop > 40;
     cta.classList.toggle("ing-off", hidden);
@@ -40115,5 +40118,16 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   #viewPanel .vp-sep { width: 56px; margin: 2px 0; }
 }
 </style>
-</body>
+<style id="v150">
+
+/* v150: 인그레스 버튼은 소개 화면 안의 글자처럼 그냥 함께 스크롤됨 (고정·페이드 없음) */
+#introEnter.intro-cta { position: absolute !important; left: 50% !important; top: 46% !important; transform: translate(-50%, -50%) !important; }
+body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; pointer-events: auto !important; transition: none !important; }
+
+@media (max-width: 900px) {
+  #intro .ed-top { justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
+  #intro .ed-top-l { display: contents; }
+  #intro .ed-top-r { display: flex; align-items: center; gap: 16px; margin-left: 0; }
+}
+</style></body>
 </html>

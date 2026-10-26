@@ -63,7 +63,7 @@ body.editing #top { left: 300px; }
 #intro .intro-clock { position: absolute; top: clamp(20px, 3.4vh, 40px); right: clamp(20px, 3vw, 52px); z-index: 3; pointer-events: none; text-align: right; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-weight: 700; color: #111; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 #intro .ic-date { font-size: clamp(20px, 2.2vw, 34px); line-height: 1.05; }
 #intro .ic-time { font-size: clamp(20px, 2.2vw, 34px); line-height: 1.05; margin-top: 4px; }
-@media (max-width: 760px) { #intro .intro-clock { top: 18px; right: 16px; } #intro .ic-date, #intro .ic-time { font-size: 22px; } }
+@media (max-width: 600px) { #intro .intro-clock { top: 18px; right: 16px; } #intro .ic-date, #intro .ic-time { font-size: 22px; } }
 #intro .intro-feed { position: relative; margin-top: 100vh; padding: 36px clamp(24px, 4vw, 64px) 24px; background: #fff; font-family: 'Inter', 'Noto Sans KR', sans-serif; color: #111; }
 #intro .ed-top { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid #111; padding-bottom: 10px; margin-bottom: 36px; }
 #intro .ed-grid { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(170px, 0.8fr) minmax(0, 2.4fr); gap: clamp(20px, 3vw, 56px); align-items: start; }
@@ -125,7 +125,7 @@ body.win-open #viewPanel { display: none; }
 #viewPanel .vp-list button:hover { background: #111; color: #fff; }
 #viewPanel .vp-list button:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
 #viewPanel .vp-sep { height: 1px; background: #cfcfcf; margin: 4px 2px; }
-@media (max-width: 760px) { #viewPanel { right: 14px; bottom: calc(env(safe-area-inset-bottom, 0px) + 216px); } #viewPanel .vp-list { width: 96px; gap: 5px; } #viewPanel .vp-list button { padding: 5px 9px; font-size: 11px; } }
+@media (max-width: 600px) { #viewPanel { right: 14px; bottom: calc(env(safe-area-inset-bottom, 0px) + 216px); } #viewPanel .vp-list { width: 96px; gap: 5px; } #viewPanel .vp-list button { padding: 5px 9px; font-size: 11px; } }
 /* 군데군데 붙는 작은 포인트 텍스트 */
 .pt { position: absolute; z-index: 3; font: 500 11px/1.3 'Inter', 'Noto Sans KR', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #8a8a8a; white-space: nowrap; pointer-events: none; }
 .pt-tl { top: -22px; left: 0; }
@@ -175,7 +175,7 @@ body.win-open #viewPanel { display: none; }
 #winFlow .wf-cat.on::before { content: '✳ '; font-weight: 400; }
 #winFlow .wf-cat sup { letter-spacing: 0; }
 #winFlow .wf-ic svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; display: block; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #winFlow .wf-title { display: none; }
   #winFlow .wf-clock { top: 64px; font-size: 12px; }
   #winFlow .wf-cats { top: auto; bottom: 70px; right: 16px; transform: none; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; max-width: 78vw; gap: 4px 10px; }
@@ -200,14 +200,14 @@ body.win-open #viewPanel { display: none; }
 #winWork .wk-gal { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 460px; }
 #winWork .wk-gal img { display: block; width: 100%; height: auto; cursor: pointer; transition: transform 0.35s ease; }
 #winWork .wk-gal img:hover { transform: scale(1.03); }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #winWork .wk-hero { }
   #winWork .wk-info { left: 6vw; right: 6vw; width: auto; top: auto; bottom: 4vh; max-height: 38vh; }
   #winWork .wk-gal { grid-template-columns: repeat(3, 1fr); }
   #winFlow .wf-cap { display: none; }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #intro .ed-grid { grid-template-columns: 1fr; gap: 28px; }
   #intro .ed-stage { order: -1; margin-top: 0; }
   #intro .ed-info { position: static; }
@@ -242,7 +242,7 @@ body.in-world #toMainNav { display: flex; }
 #intro .intro-cta span { display: inline-block; transition: transform 0.35s ease; }
 #intro .intro-cta:hover span { transform: translateX(16px); }
 #intro .intro-cta:focus-visible { outline: 3px solid #111; outline-offset: 10px; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #intro .intro-text { font-size: 24px; bottom: 36px; }
   #intro .intro-cta { top: 50%; font-size: clamp(40px, 13vw, 64px); }
 }
@@ -340,7 +340,7 @@ body.editing #viewer .dx-drag::before { content: '⠿'; position: absolute; left
 #viewer .dx-cap { font-size: 12px; color: #666; margin-top: 8px; line-height: 1.5; }
 #viewer .dx-ph { aspect-ratio: 4 / 3; background: #f2f2f0; display: grid; place-items: center; color: #999; font-size: 12px; letter-spacing: 0.08em; padding: 12px; text-align: center; }
 #viewer .dx-empty { color: #999; font-size: 13px; padding: 40px 0; text-align: center; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #viewer.is-open { width: 100vw; max-width: 100vw; height: 100vh; max-height: 100vh; top: 0; left: 0; right: auto; bottom: auto; transform: none; padding: 0 18px 40px; border-radius: 0; }
   #viewer .dx-row, #viewer .dx-g { grid-template-columns: 1fr; gap: 16px; }
   #viewer .dx-gimgs { grid-template-columns: repeat(2, 1fr); }
@@ -419,7 +419,7 @@ body.editing #side { display: block; }
   font-size: clamp(8px, calc(1.9vw * var(--b-scale, 1)), 11px); letter-spacing: 0; line-height: 1.6; color: var(--b-color); white-space: nowrap; overflow: hidden; pointer-events: none;
 }
 /* 작은 화면(세로·가로 모두): 안내 문구를 한 줄로 가운데 정렬, 조작 패드는 그 위로 */
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   /* 인스타·카카오 같은 앱 안의 브라우저는 아래쪽에 하얀 메뉴줄이 있어서, 그 위로 충분히 올리고 어두운 알약 배경을 씁니다 */
   #hint {
     left: 50%; right: auto; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 24px);
@@ -494,7 +494,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 }
 #works .wtabs button[aria-pressed="true"], #side button.on, .nav button.on { color: var(--accent) !important; border-color: var(--accent) !important; }
 /* 휴대폰: 상단 버튼 줄이 잘리지 않게 왼쪽부터 정렬하고, 메인페이지 버튼은 왼쪽 아래로 */
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #top { padding-left: 14px; padding-right: 14px; }
   .nav { justify-content: flex-start; gap: 6px; max-width: 100%; }
   .nav button { padding: 6px 11px; font-size: 11px; }
@@ -519,7 +519,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #intro .ot-word span { display: inline-block; will-change: transform; }
 /* 작품 섹션: 사진을 자유롭게 흩어 놓고 길게 스크롤 */
 #intro .outro { padding: 56px 20px 36px; }
-@media (max-width: 760px) { #intro .outro { --k: 1.6; } }
+@media (max-width: 600px) { #intro .outro { --k: 1.6; } }
 #intro .ot-area { position: relative; width: 100%; }
 #intro .ot-grid { display: none; }
 #intro .ot-img { position: absolute; display: block; width: calc(var(--w) * var(--k, 1) * 1%); left: calc((100% - var(--w) * var(--k, 1) * 1%) * var(--x)); top: var(--y); height: auto; aspect-ratio: 4 / 3; object-fit: cover; opacity: 0.12; will-change: opacity; }
@@ -528,7 +528,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #intro .outro { background: #fff; color: #111; }
 #intro .ot-word { color: #111; }
 #intro .ot-note { position: absolute; left: 4%; width: 44%; top: 26vh; word-break: keep-all; overflow-wrap: break-word; z-index: 2; margin: 0; font-family: 'Inter', 'Noto Sans KR', sans-serif; font-weight: 500; font-size: clamp(18px, 1.9vw, 26px); line-height: 1.5; color: #111; }
-@media (max-width: 760px) { #intro .ot-note { left: 0; width: 100%; top: 6vh; font-size: 20px; } }
+@media (max-width: 600px) { #intro .ot-note { left: 0; width: 100%; top: 6vh; font-size: 20px; } }
 #intro .ft { margin: 0 calc(-1 * clamp(24px, 4vw, 64px)) -24px; padding: 0 clamp(24px, 4vw, 64px); font-family: 'Inter', 'Noto Sans KR', sans-serif; color: #111; }
 #intro .ft-in { width: 100%; margin: 0; }
 #intro .ft-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding-top: 28px; border-top: 1px solid #d6d6d6; }
@@ -590,7 +590,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 }
 
 /* ===== 모바일 전용 수정 ===== */
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #intro .intro-text { font-size: 16px !important; line-height: 1.55 !important; }
   #intro .ot-note { font-size: 14px !important; line-height: 1.6 !important; }
   #intro .ot-en { font-size: 14px !important; }
@@ -621,7 +621,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #intro .ed-cats button:hover, #intro .ed-cats button.on { color: #111; }
 #intro .ed-cats button.on::before { content: '✳ '; font-weight: 400; }
 #intro .ed-index li[hidden] { display: none; }
-@media (max-width: 760px) { #intro .ed-cats { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 14px; } }
+@media (max-width: 600px) { #intro .ed-cats { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 14px; } }
 
 /* 메모 보드 (방문자용) */
 #memoBoard .mb-foot { position: absolute; left: 0; right: 0; bottom: 28px; margin: 0; font: 400 13px/1.4 'Inter', 'Noto Sans KR', sans-serif; color: #555; text-align: center; }
@@ -681,7 +681,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #memoBoard .mb-photo .mb-name { position: absolute; left: 8px; right: 8px; bottom: 6px; width: auto; margin: 0; color: #111; }
 #memoBoard .mb-photo .mb-name::placeholder { color: #111; }
 @media (hover: none) { #memoBoard .mb-h, #memoBoard .mb-rot, #memoBoard .mb-sel { opacity: 1; } }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #memoBoard .mb-tools { gap: 10px 14px; }
   #memoBoard .mb-text { max-width: 86%; }
 }
@@ -704,7 +704,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #viewPanel .vp-list { width: auto !important; align-items: flex-end; gap: 6px !important; }
 #viewPanel .vp-list button { text-align: right; justify-content: flex-end !important; }
 #viewPanel .vp-sep { width: 40px !important; margin-left: auto; background: #111 !important; opacity: .5; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .nav button, #viewPanel .vp-list button, #toMainNav button { font-size: 14px !important; color: #fff !important; text-shadow: 0 1px 4px rgba(0,0,0,.55) !important; }
   #viewPanel .vp-sep { background: rgba(255,255,255,.6) !important; opacity: 1; }
 }
@@ -758,7 +758,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #works .wm-work .wt { display: block; margin: 0; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; word-break: keep-all; font: 400 16px/1.35 'Inter', 'Noto Sans KR', sans-serif; color: #111; }
 #works .wm-work .wcard:hover .wt { text-decoration: underline; text-underline-offset: 4px; }
 #works .wm-work .wempty { grid-column: auto; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #works .wm-all { font-size: 15px; }
   #works .wm-work .wt { font-size: 14px !important; }
 }
@@ -774,7 +774,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #introEnter.intro-cta span { display: inline-block; transition: transform 0.35s ease; }
 #introEnter.intro-cta:hover span { transform: translateX(16px); }
 #introEnter.intro-cta:focus-visible { outline: 3px solid #111; outline-offset: 10px; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
 #introEnter.intro-cta { top: 50%; font-size: clamp(40px, 13vw, 64px); }
 }
 
@@ -807,7 +807,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
   .ab-photo { width: 16.2vw; bottom: 1.7vw; }
   .ab-photo img { aspect-ratio: 4 / 5; object-fit: cover; }
 }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .ab-back { left: 14px; top: 14px; width: 48px; height: 40px; }
   .ab-intro { position: relative; left: auto; right: auto; top: auto; margin: 96px 18px 22px 96px; font-size: 13px; }
   .ab-nav { position: relative; left: auto; top: auto; width: auto; margin: 0 18px; font-size: 13px; }
@@ -835,7 +835,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 @media (min-width: 761px) {
   .ab-ph { position: absolute; left: 46vw; bottom: 6vh; width: 13.5vw; aspect-ratio: 1 / 1; font-size: clamp(10px, .62vw, 13px); }
 }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   .ab-ph { position: relative; width: 62vw; aspect-ratio: 1 / 1; margin: 88px 0 0 16px; font-size: 13px; }
 }
 
@@ -34523,11 +34523,11 @@ function fitHome() {
 fitHome();
 camera.position.copy(HOME_POS);
 var renderer = new WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia("(pointer: coarse)").matches ? 1.25 : 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia("(pointer: coarse) and (max-width: 600px)").matches ? 1.25 : 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = SRGBColorSpace;
 renderer.toneMapping = ACESFilmicToneMapping;
-renderer.shadowMap.enabled = !matchMedia("(pointer: coarse)").matches;
+renderer.shadowMap.enabled = !matchMedia("(pointer: coarse) and (max-width: 600px)").matches;
 renderer.shadowMap.type = PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 var pmrem = new PMREMGenerator(renderer);
@@ -39142,7 +39142,7 @@ function openWork(i, rect, srcIdx = -1) {
   wkSrcIdx = srcIdx;
   wkOrigin = rect ? { left: rect.left, top: rect.top, width: rect.width, height: rect.height } : null;
   /* v157: 모바일 목록은 썸네일이 숨겨져 있어서, 화면 아래 가운데에서 떠올라 제자리로 커지는 움직임을 줌 (데스크탑 썸네일 날아오기와 같은 방식) */
-  if (!wkOrigin && innerWidth <= 900) { var fs = innerWidth * 0.42; wkOrigin = { left: (innerWidth - fs) / 2, top: innerHeight * 0.62, width: fs, height: fs }; }
+  if (!wkOrigin && innerWidth <= 600) { var fs = innerWidth * 0.42; wkOrigin = { left: (innerWidth - fs) / 2, top: innerHeight * 0.62, width: fs, height: fs }; }
   paintWork("open");
   winWork.classList.add("show");
   syncWinOpen();
@@ -39355,7 +39355,7 @@ function startFlow(canvas, items2, onPick) {
   let unit = 1, wpp = 0.01;                      // wpp = world units per css px at z = 0
   const size = () => {
     const w = box.clientWidth || innerWidth, h = box.clientHeight || innerHeight;
-    D = w / h < 0.9 ? 40 : 11;
+    D = w / h < 0.9 && w <= 600 ? 40 : 11;
     cam.position.set(0, 0, D);
     renderer2.setSize(w, h, false);
     cam.aspect = w / h;
@@ -39934,7 +39934,7 @@ renderer.domElement.addEventListener("dblclick", (e) => {
   zoomIn(id);
 });
 var composer = null;
-if (!matchMedia("(pointer: coarse)").matches) try {
+if (!matchMedia("(pointer: coarse) and (max-width: 600px)").matches) try {
   const [{ EffectComposer: EffectComposer2 }, { RenderPass: RenderPass2 }, { SSAOPass: SSAOPass2 }, { OutputPass: OutputPass2 }, { OutlinePass: OutlinePass2 }] = await Promise.all([
     Promise.resolve().then(() => (init_EffectComposer(), EffectComposer_exports)),
     Promise.resolve().then(() => (init_RenderPass(), RenderPass_exports)),
@@ -40255,7 +40255,7 @@ three/build/three.module.js:
 #winFlow .wf-clock { position: absolute; left: clamp(16px, 2.6vw, 36px); top: 78px; font: 600 12px/1.35 'Inter', sans-serif; color: #111; font-variant-numeric: tabular-nums; pointer-events: none; z-index: 3; }
 #winFlow .wf-hint { position: absolute; left: clamp(16px, 2.6vw, 36px); bottom: 24px; margin: 0; font: 400 13px/1 'Inter', 'Noto Sans KR', sans-serif; letter-spacing: .02em; color: #666; pointer-events: none; z-index: 3; }
 #winFlow .wf-count { position: absolute; right: clamp(16px, 2.6vw, 36px); bottom: 24px; font: 500 12px/1 'Inter', sans-serif; letter-spacing: .08em; color: #666; pointer-events: none; z-index: 3; }
-@media (max-width: 760px) {
+@media (max-width: 600px) {
   #winFlow .wf-title { display: none; }
   #winFlow .wf-clock { top: 74px; font-size: 11px; }
   #winFlow .wf-mode { font-size: 14px; }
@@ -40269,7 +40269,7 @@ three/build/three.module.js:
 .m-ast { display: none !important; }
 /* v147: 메모 보드 · 놀이터 버튼은 소개(메인) 화면에서만 */
 .mob-entry.mob-hide { display: none !important; }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   /* 소개 페이지: 사진 없이, 휴대폰 폭에 맞춘 한 단 레이아웃 */
   .ab-win { padding-bottom: 56px; }
   .ab-back { position: fixed; left: 14px; top: calc(env(safe-area-inset-top, 0px) + 14px); width: 48px; height: 40px; }
@@ -40304,7 +40304,7 @@ three/build/three.module.js:
 /* 인그레스 버튼: 스크롤해도 사라지지 않고 제자리에 고정 */
 body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; pointer-events: auto !important; transition: none !important; }
 #intro { overflow-anchor: none; }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   /* 작품 목록 상단 링크: 줄바꿈해서 잘리지 않게 */
   #intro .ed-top { flex-wrap: wrap; row-gap: 12px; }
   #intro .ed-top-l { flex-wrap: wrap; gap: 10px 16px; }
@@ -40327,13 +40327,13 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 #introEnter.intro-cta { position: absolute !important; left: 50% !important; top: 46% !important; transform: translate(-50%, -50%) !important; }
 body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; pointer-events: auto !important; transition: none !important; }
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #intro .ed-top { justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 12px 16px; }
   #intro .ed-top-l { display: contents; }
   #intro .ed-top-r { display: flex; align-items: center; gap: 16px; margin-left: 0; }
 }
 </style><style id="v151">
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #intro .ed-brk { flex-basis: 100%; height: 0; display: block; }
   #intro .ed-top { font-size: 11px; gap: 10px 12px; }
   #intro .ed-top-l .ui-txt { font-size: 11px; }
@@ -40351,12 +40351,12 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 (function () {
   function follow() {
     var win = document.getElementById("winWork");
-    if (innerWidth <= 900 && win && win.classList.contains("show")) {
+    if (innerWidth <= 600 && win && win.classList.contains("show")) {
       var h = win.querySelector(".wk-hero"), info = win.querySelector(".wk-info");
       if (h && info) {
         var r = h.getBoundingClientRect();
         if (r.height > 0) {
-          var narrow = innerWidth <= 760, gap = narrow ? 16 : 18;
+          var narrow = innerWidth <= 600, gap = narrow ? 16 : 18;
           if (narrow) { info.style.left = "6vw"; info.style.right = "6vw"; info.style.width = "auto"; }
           else { info.style.left = r.left + "px"; info.style.right = "auto"; info.style.width = Math.max(r.width, 320) + "px"; }
           info.style.top = (r.bottom + gap) + "px";
@@ -40371,13 +40371,13 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 })();
 </script>
 <style id="v152m">
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #intro .ed-top-r { margin-left: auto; }
 }
 </style>
 <style id="v153">
 /* v153: 모바일 — 작품 목록의 JH 링크 숨김, 맨 위로 버튼은 오른쪽 */
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #intro .ed-open-about { display: none !important; }
   #intro .ft-bot > button[data-act="top"] { margin-left: auto; text-align: right; }
 }
@@ -40392,7 +40392,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 
 <style id="v155">
 /* v155: 모바일 작품 목록 상단 — 흐름으로 보기 · 메모 보드 · 놀이터를 한 줄에 */
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   #intro .ed-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; font-size: 11px; }
   #intro .ed-top-l { display: flex; align-items: center; gap: 14px; order: 1; flex: 1 1 auto; }
   #intro .ed-top-r { order: 2; margin-left: auto; display: flex; align-items: center; gap: 16px; }
@@ -40404,7 +40404,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 
 <style id="v156">
 /* v156: 모바일 작품 이미지 움직임 — 눌렀을 때 살짝 커짐, 화면에 들어올 때 올라오며 나타남, 스크롤에 따라 살짝 기울어짐 (과하지 않게) */
-@media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+@media (max-width: 600px) and (prefers-reduced-motion: no-preference) {
   #intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img {
     transform: perspective(900px) rotateX(var(--tilt, 0deg));
     transform-origin: 50% 50%;
@@ -40422,7 +40422,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   var SEL = "#intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img";
   function tick() {
-    if (innerWidth <= 900 && !document.body.classList.contains("in-world")) {
+    if (innerWidth <= 600 && !document.body.classList.contains("in-world")) {
       var vh = innerHeight, imgs = document.querySelectorAll(SEL);
       for (var i = 0; i < imgs.length; i++) {
         var im = imgs[i];
@@ -40447,7 +40447,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 
 <style id="v161">
 /* v161: 넓은 화면(데스크탑 브라우저로 열 때)도 데스크탑과 같은 한 줄 배치 */
-@media (min-width: 901px) {
+@media (min-width: 601px) {
   #intro .ed-top { justify-content: flex-start; }
   #intro .ed-top-l { display: flex; align-items: center; gap: 14px; }
   #intro .ed-top-m { display: flex; align-items: center; gap: 14px; margin-left: 14px; }

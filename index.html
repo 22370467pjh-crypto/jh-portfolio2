@@ -34523,11 +34523,11 @@ function fitHome() {
 fitHome();
 camera.position.copy(HOME_POS);
 var renderer = new WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia("(pointer: coarse)").matches ? 1.5 : 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia("(pointer: coarse)").matches ? 1.25 : 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = SRGBColorSpace;
 renderer.toneMapping = ACESFilmicToneMapping;
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = !matchMedia("(pointer: coarse)").matches;
 renderer.shadowMap.type = PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 var pmrem = new PMREMGenerator(renderer);
@@ -38447,7 +38447,7 @@ document.addEventListener("keydown", (e) => {
 
 function startPlay(canvas) {
   let renderer;
-  try { renderer = new WebGLRenderer({ canvas: canvas, antialias: true }); } catch (e) { return null; }
+  try { renderer = new WebGLRenderer({ canvas: canvas, antialias: true }); renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25)); } catch (e) { return null; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.setClearColor(0xececec, 1);
   const scene = new Scene();
@@ -39072,7 +39072,7 @@ function startFlow(canvas, items2, onPick) {
   const box = canvas.parentElement;
   let renderer2;
   try {
-    renderer2 = new WebGLRenderer({ canvas, antialias: true });
+    renderer2 = new WebGLRenderer({ canvas, antialias: true }); renderer2.setPixelRatio(Math.min(devicePixelRatio, 1.25));
   } catch (e) {
     return null;
   }
@@ -39385,8 +39385,10 @@ function scheduleFeed() {
 feedEl.addEventListener("click", (e) => {
   const btn = e.target.closest(".ed-index button");
   if (btn) {
+    const keepY = introEl.scrollTop;
     feedActive = Number(btn.dataset.i);
     paintFeed();
+    introEl.scrollTop = keepY;
     return;
   }
   if (e.target.closest(".ed-open-flow")) {
@@ -39726,7 +39728,7 @@ renderer.domElement.addEventListener("dblclick", (e) => {
   zoomIn(id);
 });
 var composer = null;
-try {
+if (!matchMedia("(pointer: coarse)").matches) try {
   const [{ EffectComposer: EffectComposer2 }, { RenderPass: RenderPass2 }, { SSAOPass: SSAOPass2 }, { OutputPass: OutputPass2 }, { OutlinePass: OutlinePass2 }] = await Promise.all([
     Promise.resolve().then(() => (init_EffectComposer(), EffectComposer_exports)),
     Promise.resolve().then(() => (init_RenderPass(), RenderPass_exports)),
@@ -40089,5 +40091,29 @@ three/build/three.module.js:
   sync();
 })();
 </script>
+
+<style id="v148">
+/* v148: 메인 우하단 메모·놀이터 버튼 제거 (작품 목록 상단에만 있음) */
+.mob-entry { display: none !important; }
+/* 인그레스 버튼: 스크롤해도 사라지지 않고 제자리에 고정 */
+body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; pointer-events: auto !important; transition: none !important; }
+#intro { overflow-anchor: none; }
+@media (max-width: 900px) {
+  /* 작품 목록 상단 링크: 줄바꿈해서 잘리지 않게 */
+  #intro .ed-top { flex-wrap: wrap; row-gap: 12px; }
+  #intro .ed-top-l { flex-wrap: wrap; gap: 10px 16px; }
+  /* 순서: 카테고리·목록 → 작품 이미지 → 제목·설명 */
+  #intro .ed-idxwrap { order: -2; }
+  #intro .ed-stage { order: -1; }
+  #intro .ed-info { order: 0; }
+  /* 3D 공간: 안내 문구는 맨 아래 가운데, 메뉴와 패드는 그 위로 가지런히 */
+  #hint { top: auto !important; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important; }
+  #pad { bottom: calc(env(safe-area-inset-bottom, 0px) + 60px) !important; }
+  #viewPanel { left: 20px !important; right: auto !important; bottom: calc(env(safe-area-inset-bottom, 0px) + 60px) !important; }
+  #viewPanel .vp-list { align-items: flex-start; width: auto; gap: 10px; }
+  #viewPanel .vp-list button { text-align: left; font-size: 13px !important; padding: 2px 0 !important; }
+  #viewPanel .vp-sep { width: 56px; margin: 2px 0; }
+}
+</style>
 </body>
 </html>

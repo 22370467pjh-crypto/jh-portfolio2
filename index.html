@@ -40198,5 +40198,48 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   #intro .ed-top-m .ui-txt { font-size: 11px; }
 }
 </style>
+
+<style id="v156">
+/* v156: 모바일 작품 이미지 움직임 — 눌렀을 때 살짝 커짐, 화면에 들어올 때 올라오며 나타남, 스크롤에 따라 살짝 기울어짐 (과하지 않게) */
+@media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+  #intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img {
+    transform: perspective(900px) rotateX(var(--tilt, 0deg));
+    transform-origin: 50% 50%;
+    transition: scale .35s ease, translate .9s cubic-bezier(.2, .7, .2, 1), opacity .9s ease, transform .3s ease-out;
+    will-change: transform;
+  }
+  #intro .ed-col img.mo-pre, #intro .ed-stage img.mo-pre, #works .wimg img.mo-pre, #winWork .wk-gal img.mo-pre { opacity: 0; translate: 0 22px; }
+  #intro .ed-col img.mo-in, #intro .ed-stage img.mo-in, #works .wimg img.mo-in, #winWork .wk-gal img.mo-in { opacity: 1; translate: 0 0; }
+  #intro .ed-col img:active, #intro .ed-stage img:active, #works .wimg img:active, #winWork .wk-gal img:active { scale: 1.03; }
+}
+</style>
+<script>
+/* v156: 모바일 작품 이미지 — 들어올 때 올라오며 나타나고, 화면 중심에서 멀수록 살짝 기울어짐 */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var SEL = "#intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img";
+  function tick() {
+    if (innerWidth <= 900 && !document.body.classList.contains("in-world")) {
+      var vh = innerHeight, imgs = document.querySelectorAll(SEL);
+      for (var i = 0; i < imgs.length; i++) {
+        var im = imgs[i];
+        if (!im.dataset.moSeen) { im.dataset.moSeen = "1"; im.classList.add("mo-pre"); }
+        var r = im.getBoundingClientRect();
+        if (r.height <= 0) continue;
+        if (!im.classList.contains("mo-in") && r.top < vh * 0.92 && r.bottom > 0) {
+          im.classList.remove("mo-pre"); im.classList.add("mo-in");
+        }
+        if (im.classList.contains("mo-in")) {
+          var c = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
+          var deg = (c * -2).toFixed(2);
+          if (im.dataset.tilt !== deg) { im.dataset.tilt = deg; im.style.setProperty("--tilt", deg + "deg"); }
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
 </body>
 </html>

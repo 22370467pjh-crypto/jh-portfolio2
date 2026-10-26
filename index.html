@@ -37842,7 +37842,7 @@ function renderFeed() {
   }
   const outroHtml = buildOutro();
   const list = feedWorks.map((d, i) => `<li><button type="button" data-i="${i}">${String(i + 1).padStart(2, "0")} ${esc(dxT(d, "name") || "\uC774\uB984 \uC5C6\uB294 \uC791\uD488")}</button></li>`).join("");
-  feedEl.innerHTML = `<div class="ed-top"><span class="ed-top-l"><span class="gl-hover">Works</span><span class="pt-inline"><i class="dot-live"></i>Live index</span><button type="button" class="ui-txt ed-open-flow">\uD750\uB984\uC73C\uB85C \uBCF4\uAE30 \u2192</button><button type="button" class="ui-txt ed-open-memo">메모 보드 →</button><span class="ed-brk" aria-hidden="true"></span><button type="button" class="ui-txt ed-open-play">놀이터 →</button></span><span class="ed-top-r"><button type="button" class="ui-txt ed-open-about" data-ab>← JH</button><span>${feedWorks.length}</span></span></div>
+  feedEl.innerHTML = `<div class="ed-top"><span class="ed-top-l"><span class="gl-hover">Works</span><span class="pt-inline"><i class="dot-live"></i>Live index</span></span><span class="ed-top-m"><button type="button" class="ui-txt ed-open-flow">\uD750\uB984\uC73C\uB85C \uBCF4\uAE30 \u2192</button><button type="button" class="ui-txt ed-open-memo">메모 보드 →</button><button type="button" class="ui-txt ed-open-play">놀이터 →</button></span><span class="ed-top-r"><button type="button" class="ui-txt ed-open-about" data-ab>← JH</button><span>${feedWorks.length}</span></span></div>
     <div class="ed-grid">
       <div class="ed-info" data-part="info"></div>
       <div class="ed-idxwrap"><nav class="ed-cats" aria-label="카테고리"></nav><ol class="ed-index">${list}</ol></div>
@@ -40186,5 +40186,17 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 }
 </style>
 <div id="rotLock" role="alert"><p>세로 모드로 돌려서 봐주세요.<br>Please rotate your phone to portrait.</p></div>
+
+<style id="v155">
+/* v155: 모바일 작품 목록 상단 — 흐름으로 보기 · 메모 보드 · 놀이터를 한 줄에 */
+@media (max-width: 900px) {
+  #intro .ed-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; font-size: 11px; }
+  #intro .ed-top-l { display: flex; align-items: center; gap: 14px; order: 1; flex: 1 1 auto; }
+  #intro .ed-top-r { order: 2; margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  #intro .ed-top-m { order: 3; width: 100%; display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; white-space: nowrap; }
+  #intro .ed-top-l .ui-txt, #intro .ed-top-m .ui-txt { font-size: 11px; }
+  #intro .ed-top-m .ui-txt { font-size: 11px; }
+}
+</style>
 </body>
 </html>

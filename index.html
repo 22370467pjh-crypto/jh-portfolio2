@@ -38892,6 +38892,209 @@ function placeHero() {
   wkHero.style.opacity = 1;
 }
 wkHero.addEventListener("load", placeHero);
+/* v158: 데스크탑 종이 휨 모션을 모바일 상세 페이지에도 (데스크탑 블록 그대로 이식) */
+/* 종이 휨 모션 레이어 (ThreeDPaper와 같은 WAVE/sheetPoint). 대상 이미지 위에 같은 자리로 올라감 */
+(function () {
+  const PAPER_WAVE = "\nuniform float uTime, uAmp, uFlutter, uPhase, uFreq, uTwist;\nuniform vec2  uSize;\n\n// the sheet hangs: it curls harder at the top than along the bottom edge\nfloat sAmp(float u, float v){ return uAmp*(0.10 + pow(u,1.35))*(0.50 + 0.64*v); }\nfloat sAmpV(float u){        return uAmp*(0.10 + pow(u,1.35))*0.64; }\n\nfloat sTheta(float u, float v){\n  float a  = sAmp(u,v);\n  float ph = uFreq*u + uTwist*v + uTime*0.40 + uPhase;\n  return a*sin(ph) + uFlutter*a*0.60*sin(ph*2.35 + uTime*2.0);\n}\nfloat sThetaV(float u, float v){\n  float a  = sAmp(u,v), da = sAmpV(u);\n  float ph = uFreq*u + uTwist*v + uTime*0.40 + uPhase;\n  float f  = ph*2.35 + uTime*2.0;\n  return da*sin(ph) + a*cos(ph)*uTwist\n       + uFlutter*0.60*(da*sin(f) + a*cos(f)*uTwist*2.35);\n}\nfloat sYoff(float u, float v){\n  float w = 1.0 - 0.55*v;\n  return 0.021*uSize.y*sin(2.05*u + uTime*0.47 + uPhase)\n       + 0.013*uSize.y*sin(3.35*u - 1.55*v + uTime*0.63 + uPhase)*w;\n}\nfloat sYdU(float u, float v){\n  float w = 1.0 - 0.55*v;\n  return 0.0431*uSize.y*cos(2.05*u + uTime*0.47 + uPhase)\n       + 0.0436*uSize.y*cos(3.35*u - 1.55*v + uTime*0.63 + uPhase)*w;\n}\nfloat sYdV(float u, float v){\n  float ph = 3.35*u - 1.55*v + uTime*0.63 + uPhase;\n  return 0.013*uSize.y*(-1.55*cos(ph)*(1.0-0.55*v) - 0.55*sin(ph));\n}\n\n// paper conserves arc length: integrate the bend instead of pushing Z,\n// so the silhouette really pulls in where the sheet turns away\nvoid sheetPoint(vec2 q, out vec3 P, out vec3 NN){\n  float u = q.x, v = q.y;\n  float x=0.0, z=0.0, xe=0.0, ze=0.0, dxv=0.0, dzv=0.0, dxe=0.0, dze=0.0;\n  const int NS = 20;\n  float h = 1.0/float(NS);\n  for(int i=0;i<NS;i++){\n    float uu = (float(i)+0.5)*h;\n    float w  = clamp((u-(uu-0.5*h))/h, 0.0, 1.0);\n    float th = sTheta(uu,v);\n    float dt = sThetaV(uu,v);\n    float c = cos(th), sn = sin(th);\n    xe += c*h;          ze += sn*h;\n    dxe += -sn*dt*h;    dze +=  c*dt*h;\n    x   += c*h*w;       z   += sn*h*w;\n    dxv += -sn*dt*h*w;  dzv +=  c*dt*h*w;\n  }\n  float W = uSize.x, H = uSize.y;\n  float th0 = sTheta(u,v);\n  P = vec3((x - xe*0.5)*W, (v-0.5)*H + sYoff(u,v), (z - ze*0.5)*W);\n  vec3 Tu = vec3(W*cos(th0), sYdU(u,v), W*sin(th0));\n  vec3 Tv = vec3((dxv - dxe*0.5)*W, H + sYdV(u,v), (dzv - dze*0.5)*W);\n  NN = normalize(cross(Tu, Tv));\n}";
+  const st = document.createElement("style");
+  st.textContent =
+    ".wk-paper{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;display:none}" +
+    ".pp-fixed{position:fixed;inset:0;width:100%;height:100%;z-index:61;pointer-events:none;display:none}" +
+    "#winWork .wk-hero.paper-on,#intro .ed-main.paper-on{opacity:0 !important}";
+  document.head.appendChild(st);
+
+  // the visible picture inside an <img> (object-fit: contain aware)
+  function contentRect(img) {
+    const b = img.getBoundingClientRect();
+    const nw = img.naturalWidth, nh = img.naturalHeight;
+    if (!nw || !nh || b.width < 2 || b.height < 2) return null;
+    const ar = nw / nh, bar = b.width / b.height;
+    let w = b.width, h = b.height;
+    if (bar > ar) w = h * ar; else h = w / ar;
+    return { left: b.left + (b.width - w) / 2, top: b.top + (b.height - h) / 2, width: w, height: h };
+  }
+
+  function makeLayer(canvas, pick) {
+    let r = null, scene = null, cam = null, mesh = null, mat = null, loader = null;
+    const uTime = { value: 0 };
+    const uni = {
+      uTime: uTime, uAmp: { value: 0.12 }, uFreq: { value: 2.4 }, uTwist: { value: 0.2 },
+      uSize: { value: new Vector2(1, 1) }, uFlutter: { value: 0 }, uPhase: { value: 0 },
+      uTouch: { value: new Vector2(0.5, 0.5) }, uTouchAmt: { value: 0 }
+    };
+    let curSrc = "", loadingSrc = "", tex = null, lastT = performance.now();
+    let on = false, lastImg = null, lastW = 0, lastH = 0;
+    // touch: hover = gentle give; press = the sheet is held; drag = turn it like paper (yaw/pitch, coasts, settles back)
+    const touch = { x: 0.5, y: 0.5, sx: 0.5, sy: 0.5, amt: 0, target: 0, over: false, down: false };
+    const turn = { yaw: 0, pitch: 0, vyaw: 0, vpitch: 0, prevYaw: 0, prevPitch: 0, release: 0, lastX: 0, lastY: 0, moved: 0 };
+    let suppressClick = false;
+    let cur = null;   // what is on screen right now: { img, rect }
+    const clamp01 = (v) => Math.min(1, Math.max(0, v));
+    const clampS = (v, lo, hi) => (v < lo ? lo : (v > hi ? hi : v));
+    const inside = (e, r) => e.clientX >= r.left && e.clientX <= r.left + r.width && e.clientY >= r.top && e.clientY <= r.top + r.height;
+    const localQ = (e, r) => ({ x: clamp01((e.clientX - r.left) / r.width), y: clamp01(1 - (e.clientY - r.top) / r.height) });
+    // a drag ends with a click: swallow it so the work doesn't open after turning it
+    // a pressed image must not start the browser's own image drag (it swallows the pointer)
+    window.addEventListener("dragstart", (e) => {
+      if (cur && e.target === cur.img) e.preventDefault();
+    }, true);
+    window.addEventListener("click", (e) => {
+      if (suppressClick) { suppressClick = false; e.stopPropagation(); e.preventDefault(); }
+    }, true);
+    window.addEventListener("pointermove", (e) => {
+      if (!cur) return;
+      const r = cur.rect, img = cur.img;
+      if (touch.down && e.buttons === 0) touch.down = false;   // release missed: never stay stuck
+      if (touch.down) {
+        const q = localQ(e, r); touch.x = q.x; touch.y = q.y; touch.target = 1;
+        const dx = e.clientX - turn.lastX, dy = e.clientY - turn.lastY;
+        turn.lastX = e.clientX; turn.lastY = e.clientY;
+        turn.moved += Math.abs(dx) + Math.abs(dy);
+        turn.yaw += dx * 0.006;
+        turn.pitch = clampS(turn.pitch - dy * 0.0045, -0.6, 0.6);
+        img.style.cursor = "grabbing";
+        return;
+      }
+      if (inside(e, r)) {
+        const q = localQ(e, r); touch.x = q.x; touch.y = q.y;
+        touch.over = true; touch.target = 0.5;
+        img.style.cursor = "grab";
+      } else {
+        touch.over = false; touch.target = 0;
+        img.style.cursor = "";
+      }
+    }, { passive: true });
+    window.addEventListener("pointerdown", (e) => {
+      if (!cur || !inside(e, cur.rect)) return;
+      touch.down = true; touch.target = 1;
+      const q = localQ(e, cur.rect); touch.x = q.x; touch.y = q.y;
+      turn.lastX = e.clientX; turn.lastY = e.clientY; turn.moved = 0; turn.release = 0;
+      turn.vyaw = 0; turn.vpitch = 0; turn.prevYaw = turn.yaw; turn.prevPitch = turn.pitch;
+      cur.img.style.cursor = "grabbing";
+    });
+    window.addEventListener("pointerup", () => {
+      if (!touch.down) return;
+      touch.down = false;
+      if (turn.moved > 6) suppressClick = true;
+      turn.release = 0.6;
+      touch.target = touch.over ? 0.5 : 0;
+      if (cur) cur.img.style.cursor = touch.over ? "grab" : "";
+    });
+
+    function hide() {
+      if (on) { on = false; canvas.style.display = "none"; }
+      if (lastImg) { lastImg.classList.remove("paper-on"); lastImg = null; }
+      if (cur) { cur.img.style.cursor = ""; cur = null; }
+      touch.target = 0; touch.down = false;
+      turn.yaw = 0; turn.pitch = 0; turn.vyaw = 0; turn.vpitch = 0; turn.release = 0;
+    }
+    function init() {
+      r = new WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      scene = new Scene();
+      cam = new PerspectiveCamera(30, 1, 1, 10000);
+      loader = new TextureLoader();
+      mat = new MeshBasicMaterial({ color: 16777215, side: DoubleSide, transparent: true });
+      mat.onBeforeCompile = (sh) => {
+        Object.assign(sh.uniforms, uni);
+        sh.vertexShader = sh.vertexShader
+          .replace("#include <common>", "#include <common>\n" + PAPER_WAVE + "\nuniform vec2 uTouch; uniform float uTouchAmt;")
+          .replace("#include <begin_vertex>",
+            "vec3 sheetP; vec3 sheetN;\nsheetPoint(vec2(position.x / uSize.x + 0.5, position.y / uSize.y + 0.5), sheetP, sheetN);\n" +
+            "vec2 tq = vec2(position.x / uSize.x + 0.5, position.y / uSize.y + 0.5);\n" +
+            "float tdd = distance(tq, uTouch);\nsheetP.z += uTouchAmt * 0.015 * exp(-tdd * tdd * 22.0);\n" +
+            "vec3 transformed = sheetP;");
+      };
+      mesh = new Mesh(new PlaneGeometry(1, 1, 40, 52), mat);
+      scene.add(mesh);
+    }
+    function frame(now) {
+      requestAnimationFrame(frame);
+      const dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+      const p = pick();
+      if (!p || !p.img.src || !p.rect) return hide();
+      const img = p.img, s = img.src;
+      if (s !== curSrc) {
+        hide();                       // show the plain image until the new texture is ready
+        if (s !== loadingSrc) {
+          loadingSrc = s;
+          if (!loader) loader = new TextureLoader();
+          loader.load(s, (t) => {
+            if (img.src !== s) { t.dispose(); return; }
+            if (!r) init();
+            if (tex) tex.dispose();
+            t.colorSpace = SRGBColorSpace;
+            tex = t; curSrc = s;
+            mat.map = t; mat.needsUpdate = true;
+          });
+        }
+        return;
+      }
+      const rect = p.rect;
+      if (rect.bottom < 0 || rect.top > innerHeight || rect.right < 0 || rect.left > innerWidth) return hide();
+      if (!r) init();
+
+      const W = innerWidth, H = innerHeight;
+      if (W !== lastW || H !== lastH) {
+        lastW = W; lastH = H;
+        r.setSize(W, H, false);
+        cam.aspect = W / H;
+        const d = (H / 2) / Math.tan((30 * Math.PI / 180) / 2);   // 1 unit = 1 css px at z = 0
+        cam.position.set(0, 0, d);
+        cam.near = 1; cam.far = d * 4;
+        cam.updateProjectionMatrix();
+      }
+      cur = { img: img, rect: rect };
+      if (img.draggable) img.draggable = false;
+      touch.amt += (touch.target - touch.amt) * Math.min(1, dt * 6);
+      touch.sx += (touch.x - touch.sx) * Math.min(1, dt * 12);
+      touch.sy += (touch.y - touch.sy) * Math.min(1, dt * 12);
+      uni.uTouch.value.set(touch.sx, touch.sy);
+      uni.uTouchAmt.value = touch.amt;
+      // turning: while held, the speed follows the hand; released, it coasts and settles flat
+      if (touch.down) {
+        const k = Math.min(1, dt * 14);
+        turn.vyaw += ((turn.yaw - turn.prevYaw) / Math.max(dt, 1e-3) - turn.vyaw) * k;
+        turn.vpitch += ((turn.pitch - turn.prevPitch) / Math.max(dt, 1e-3) - turn.vpitch) * k;
+      } else {
+        turn.yaw += turn.vyaw * dt;
+        turn.pitch = clampS(turn.pitch + turn.vpitch * dt, -0.6, 0.6);
+        const decay = Math.pow(0.02, dt);
+        turn.vyaw *= decay; turn.vpitch *= decay;
+        turn.release = Math.max(0, turn.release - dt);
+        if (turn.release <= 0) {
+          const k = Math.min(1, dt * 3.2);
+          turn.yaw += (0 - turn.yaw) * k;
+          turn.pitch -= turn.pitch * k;
+        }
+      }
+      turn.prevYaw = turn.yaw; turn.prevPitch = turn.pitch;
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      mesh.position.set(cx - W / 2, H / 2 - cy, 0);
+      mesh.scale.set(rect.width, rect.height, rect.width);
+      mesh.rotation.set(turn.pitch, turn.yaw, 0);
+      uTime.value += dt;
+      r.render(scene, cam);
+
+      canvas.style.display = "block";
+      on = true;
+      if (lastImg !== img) { if (lastImg) lastImg.classList.remove("paper-on"); lastImg = img; }
+      img.classList.add("paper-on");
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // 1) detail page hero
+  const heroCanvas = document.createElement("canvas");
+  heroCanvas.className = "wk-paper";
+  winWork.appendChild(heroCanvas);
+  makeLayer(heroCanvas, () => {
+    if (!winWork.classList.contains("show")) return null;
+    return { img: wkHero, rect: contentRect(wkHero) };
+  });
+
+})();
+
 function paintWork(mode) {
   const d = feedWorks[wkIdx];
   if (!d) return;
@@ -38937,8 +39140,9 @@ function openWork(i, rect, srcIdx = -1) {
   winWork.querySelector(".wk-info").scrollTop = 0;
   wkIdx = i;
   wkSrcIdx = srcIdx;
-  feedActive = i;
   wkOrigin = rect ? { left: rect.left, top: rect.top, width: rect.width, height: rect.height } : null;
+  /* v157: 모바일 목록은 썸네일이 숨겨져 있어서, 화면 아래 가운데에서 떠올라 제자리로 커지는 움직임을 줌 (데스크탑 썸네일 날아오기와 같은 방식) */
+  if (!wkOrigin && innerWidth <= 900) { var fs = innerWidth * 0.42; wkOrigin = { left: (innerWidth - fs) / 2, top: innerHeight * 0.62, width: fs, height: fs }; }
   paintWork("open");
   winWork.classList.add("show");
   syncWinOpen();
@@ -38950,7 +39154,6 @@ function closeWork() {
 function stepWork(dir) {
   if (!feedWorks.length) return;
   wkIdx = (wkIdx + dir + feedWorks.length) % feedWorks.length;
-  feedActive = wkIdx;
   wkSrcIdx = -1;
   paintWork("swap");
 }
@@ -40198,5 +40401,48 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
   #intro .ed-top-m .ui-txt { font-size: 11px; }
 }
 </style>
+
+<style id="v156">
+/* v156: 모바일 작품 이미지 움직임 — 눌렀을 때 살짝 커짐, 화면에 들어올 때 올라오며 나타남, 스크롤에 따라 살짝 기울어짐 (과하지 않게) */
+@media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+  #intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img {
+    transform: perspective(900px) rotateX(var(--tilt, 0deg));
+    transform-origin: 50% 50%;
+    transition: scale .35s ease, translate .9s cubic-bezier(.2, .7, .2, 1), opacity .9s ease, transform .3s ease-out;
+    will-change: transform;
+  }
+  #intro .ed-col img.mo-pre, #intro .ed-stage img.mo-pre, #works .wimg img.mo-pre, #winWork .wk-gal img.mo-pre { opacity: 0; translate: 0 22px; }
+  #intro .ed-col img.mo-in, #intro .ed-stage img.mo-in, #works .wimg img.mo-in, #winWork .wk-gal img.mo-in { opacity: 1; translate: 0 0; }
+  #intro .ed-col img:active, #intro .ed-stage img:active, #works .wimg img:active, #winWork .wk-gal img:active { scale: 1.03; }
+}
+</style>
+<script>
+/* v156: 모바일 작품 이미지 — 들어올 때 올라오며 나타나고, 화면 중심에서 멀수록 살짝 기울어짐 */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var SEL = "#intro .ed-col img, #intro .ed-stage img, #works .wimg img, #winWork .wk-gal img";
+  function tick() {
+    if (innerWidth <= 900 && !document.body.classList.contains("in-world")) {
+      var vh = innerHeight, imgs = document.querySelectorAll(SEL);
+      for (var i = 0; i < imgs.length; i++) {
+        var im = imgs[i];
+        if (!im.dataset.moSeen) { im.dataset.moSeen = "1"; im.classList.add("mo-pre"); }
+        var r = im.getBoundingClientRect();
+        if (r.height <= 0) continue;
+        if (!im.classList.contains("mo-in") && r.top < vh * 0.92 && r.bottom > 0) {
+          im.classList.remove("mo-pre"); im.classList.add("mo-in");
+        }
+        if (im.classList.contains("mo-in")) {
+          var c = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
+          var deg = (c * -2).toFixed(2);
+          if (im.dataset.tilt !== deg) { im.dataset.tilt = deg; im.style.setProperty("--tilt", deg + "deg"); }
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
 </body>
 </html>

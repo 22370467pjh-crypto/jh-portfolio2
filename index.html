@@ -114,7 +114,7 @@ body.editing #top { left: 300px; }
 .ft-marq { margin: 0 calc(-1 * clamp(24px, 4vw, 64px)) 36px; padding: 12px 0; border-top: 1px solid #111; border-bottom: 1px solid #111; overflow: hidden; white-space: nowrap; }
 .ft-marq-in { display: inline-flex; animation: ftMarq 26s linear infinite; font: 700 clamp(18px, 2.4vw, 30px)/1.2 'Inter', 'Noto Sans KR', sans-serif; letter-spacing: -0.02em; color: #111; }
 .ft-marq-in span { padding-right: .8em; }
-.ft-marq-in span::after { content: '✳'; margin-left: .8em; font-weight: 400; }
+.ft-marq-in span::after { content: ''; margin-left: .8em; font-weight: 400; }
 @keyframes ftMarq { to { transform: translateX(-50%); } }
 /* 시점 패널 (3D 공간 안에서만 보입니다) */
 #viewPanel { position: fixed; right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(max(20px, env(safe-area-inset-bottom, 0px)) + 172px); z-index: 40; display: none; font: 500 12px/1 'Inter', 'Noto Sans KR', sans-serif; color: #111; user-select: none; }
@@ -172,7 +172,7 @@ body.win-open #viewPanel { display: none; }
 #winFlow .wf-frame i:nth-child(4) { right: 0; bottom: 0; border-right-width: 1px; border-bottom-width: 1px; }
 #winFlow .wf-rec { position: absolute; right: clamp(20px, 4vw, 64px); top: 72px; z-index: 3; display: flex; align-items: center; gap: 7px; font: 600 12px/1 'Inter', sans-serif; letter-spacing: .14em; color: #111; pointer-events: none; }
 #winFlow .wf-rec i { width: 7px; height: 7px; border-radius: 50%; background: #e0281c; animation: dotBlink 1.2s ease-in-out infinite; }
-#winFlow .wf-cat.on::before { content: '✳ '; font-weight: 400; }
+#winFlow .wf-cat.on::before { content: ''; font-weight: 400; }
 #winFlow .wf-cat sup { letter-spacing: 0; }
 #winFlow .wf-ic svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; display: block; }
 @media (max-width: 600px) {
@@ -619,7 +619,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #intro .ed-cats button { background: none; border: 0; padding: 2px 0; font: 300 16px/1.3 'Inter', 'Noto Sans KR', sans-serif; color: #b3b3b3; cursor: pointer; transition: color .2s ease; }
 #intro .ed-cats button sup { font-weight: 300; font-size: 9px; margin-left: 3px; vertical-align: top; color: inherit; }
 #intro .ed-cats button:hover, #intro .ed-cats button.on { color: #111; }
-#intro .ed-cats button.on::before { content: '✳ '; font-weight: 400; }
+#intro .ed-cats button.on::before { content: ''; font-weight: 400; }
 #intro .ed-index li[hidden] { display: none; }
 @media (max-width: 600px) { #intro .ed-cats { flex-direction: row; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 14px; } }
 
@@ -640,7 +640,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 #memoBoard .mb-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 18px 22px; padding: 18px clamp(16px, 2.6vw, 36px); }
 #memoBoard .mb-title { font: 600 12px/1 'Inter', sans-serif; letter-spacing: .16em; margin-right: auto; }
 #memoBoard .mb-tools { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px 18px; }
-#memoBoard .mb-tools button.on::before { content: '✳ '; }
+#memoBoard .mb-tools button.on::before { content: ''; }
 #memoBoard .mb-hint { margin: 0 clamp(16px, 2.6vw, 36px); font: 400 12px/1.5 'Inter', 'Noto Sans KR', sans-serif; opacity: .6; }
 #memoBoard .mb-stage { position: relative; flex: 1; overflow: hidden; margin-top: 10px; }
 #memoBoard .mb-status { position: absolute; left: clamp(16px, 2.6vw, 36px); bottom: 16px; margin: 0; font: 400 11px/1 'Inter', 'Noto Sans KR', sans-serif; opacity: .55; }
@@ -700,7 +700,7 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 .nav button.on, #viewPanel .vp-list button.on, #toMainNav button.on, .nav button[aria-pressed="true"] {
   color: #111 !important; font-weight: 300 !important;
 }
-.nav button.on::before, #viewPanel .vp-list button.on::before, #toMainNav button.on::before { content: '✳ '; font-weight: 400; }
+.nav button.on::before, #viewPanel .vp-list button.on::before, #toMainNav button.on::before { content: ''; font-weight: 400; }
 #viewPanel .vp-list { width: auto !important; align-items: flex-end; gap: 6px !important; }
 #viewPanel .vp-list button { text-align: right; justify-content: flex-end !important; }
 #viewPanel .vp-sep { width: 40px !important; margin-left: auto; background: #111 !important; opacity: .5; }
@@ -731,14 +731,14 @@ body:not(.editing) #btnStyle, body:not(.editing) #styler { display: none !import
 }
 #viewer .dx-tab:hover, .dx-bar button:hover, #vClose:hover { background: none !important; color: #111 !important; text-decoration: underline; text-underline-offset: 4px; }
 #viewer .dx-tab[aria-pressed="true"], .dx-bar button[aria-pressed="true"] { color: #111 !important; font-weight: 300 !important; background: none !important; }
-#viewer .dx-tab[aria-pressed="true"]::before, .dx-bar button[aria-pressed="true"]::before { content: '✳ '; font-weight: 400; }
+#viewer .dx-tab[aria-pressed="true"]::before, .dx-bar button[aria-pressed="true"]::before { content: ''; font-weight: 400; }
 
 /* 작품 목록 패널: 캡슐 버튼 대신 글씨 메뉴, 검색은 밑줄 */
 #works .wtabs { gap: 18px 20px !important; margin: 0 0 22px !important; }
 #works .wtabs button { background: none !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; font: 400 16px/1.3 'Inter', 'Noto Sans KR', sans-serif !important; color: #111 !important; letter-spacing: 0 !important; }
 #works .wtabs button:hover { text-decoration: underline; text-underline-offset: 4px; }
 #works .wtabs button[aria-pressed="true"] { font-weight: 700 !important; color: #111 !important; }
-#works .wtabs button[aria-pressed="true"]::before { content: '✳ '; font-weight: 400; }
+#works .wtabs button[aria-pressed="true"]::before { content: ''; font-weight: 400; }
 #works .wsearch { border-bottom: 0 !important; padding-bottom: 0 !important; margin: 0 0 22px !important; }
 #works .wsearch input { border: 0 !important; border-bottom: 1px solid #111 !important; border-radius: 0 !important; padding: 6px 0 !important; background: none !important; font: 400 15px/1.4 'Inter', 'Noto Sans KR', sans-serif !important; }
 #works .wsearch input::placeholder { color: #9a9a9a; }
@@ -37856,7 +37856,7 @@ function renderFeed() {
         <div><h4>Contact</h4><ul><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Email</a></li><li><a class="ft-link" href="https://www.instagram.com/zcmmmt/" target="_blank" rel="noopener">Instagram</a></li><li><a class="ft-link" href="https://www.instagram.com/jun_zun/" target="_blank" rel="noopener">Design account</a></li></ul></div>
         <div><h4>Project</h4><ul><li><a class="ft-link" href="mailto:22370467pjh@gmail.com">Get in touch</a></li></ul></div>
       </div>
-      <div class="ft-bot"><span>\xA9 2026 park junhee</span><span class="pt-inline">Made with light &amp; motion <span class="m-ast">\u2733</span></span><button type="button" class="ft-link" data-act="top">Back to top \u2191</button></div>
+      <div class="ft-bot"><span>\xA9 2026 park junhee</span><span class="pt-inline">Made with light &amp; motion </span><button type="button" class="ft-link" data-act="top">Back to top \u2191</button></div>
     </div></footer>
 `;
   paintFeed();
@@ -37898,7 +37898,7 @@ function buildOutro() {
     "There are things we feel before we can put them into words. I carefully translate those feelings into color, form, and empty space. The translation always drifts a little, and out of that drift a mood emerges that did not exist before. That is why I leave space before I offer explanation.",
     "Even after a painting ends, an afterimage remains. I hope it settles quietly somewhere in the viewer\u2019s heart, and that in that open space, each person\u2019s own story slowly grows."
   ].map((t) => `<p>${t}</p>`).join("");
-  return `<section class="outro" id="outro"><div class="ot-area" style="height:${H}vh">${imgs}${note}<span class="pt pt-tl">Index 01 \u2014 ${String(n).padStart(2, "0")}</span><span class="pt pt-tr">Scroll \u2193</span><span class="pt pt-bl">Mood \xB7 Light \xB7 Motion</span><span class="pt pt-br">Vol.01 \u2014 2026 <span class="m-ast">\u2733</span></span></div><div class="ot-long">${longHtml}</div><div class="ot-word"><span class="ot-l">PARK</span><span class="ot-r">JUN HEE</span></div></section>`;
+  return `<section class="outro" id="outro"><div class="ot-area" style="height:${H}vh">${imgs}${note}<span class="pt pt-tl">Index 01 \u2014 ${String(n).padStart(2, "0")}</span><span class="pt pt-tr">Scroll \u2193</span><span class="pt pt-bl">Mood \xB7 Light \xB7 Motion</span><span class="pt pt-br">Vol.01 \u2014 2026 </span></div><div class="ot-long">${longHtml}</div><div class="ot-word"><span class="ot-l">PARK</span><span class="ot-r">JUN HEE</span></div></section>`;
 }
 function typeNote(sec, vh, base, sel2) {
   const note = sec.querySelector(sel2);
@@ -40251,7 +40251,7 @@ three/build/three.module.js:
 #winFlow .wf-modes { display: flex; gap: 18px; margin-left: auto; align-items: baseline; }
 #winFlow .wf-mode { background: none; border: 0; padding: 2px 0; font: 300 16px/1.3 'Inter', sans-serif; color: #b3b3b3; cursor: pointer; transition: color .2s ease; }
 #winFlow .wf-mode:hover, #winFlow .wf-mode.on { color: #111; }
-#winFlow .wf-mode.on::before { content: '✳ '; font-weight: 400; }
+#winFlow .wf-mode.on::before { content: ''; font-weight: 400; }
 #winFlow .wf-clock { position: absolute; left: clamp(16px, 2.6vw, 36px); top: 78px; font: 600 12px/1.35 'Inter', sans-serif; color: #111; font-variant-numeric: tabular-nums; pointer-events: none; z-index: 3; }
 #winFlow .wf-hint { position: absolute; left: clamp(16px, 2.6vw, 36px); bottom: 24px; margin: 0; font: 400 13px/1 'Inter', 'Noto Sans KR', sans-serif; letter-spacing: .02em; color: #666; pointer-events: none; z-index: 3; }
 #winFlow .wf-count { position: absolute; right: clamp(16px, 2.6vw, 36px); bottom: 24px; font: 500 12px/1 'Inter', sans-serif; letter-spacing: .08em; color: #666; pointer-events: none; z-index: 3; }
@@ -40260,7 +40260,7 @@ three/build/three.module.js:
   #winFlow .wf-clock { top: 74px; font-size: 11px; }
   #winFlow .wf-mode { font-size: 14px; }
   #winFlow .wf-modes { gap: 12px; }
-/* v147: 모바일에서는 ✳ 기호를 모두 지움 */
+/* v147: 모바일에서는 기호를 모두 지움 */
 .ft-marq-in span::after, #winFlow .wf-cat.on::before, #winFlow .wf-mode.on::before,
 #intro .ed-cats button.on::before, #memoBoard .mb-tools button.on::before, .nav button.on::before,
 #viewPanel .vp-list button.on::before, #toMainNav button.on::before, #viewer .dx-tab[aria-pressed="true"]::before,
@@ -40456,7 +40456,7 @@ body:not(.in-world) #introEnter.intro-cta.ing-off { opacity: 1 !important; point
 </style>
 
 <style id="v163">
-/* v163: 초록색 ✳ 아이콘 제거 (모든 화면 크기) — 작품 목록 상단의 ✳ 표시는 그대로 */
+/* v163: 초록색 아이콘 제거 (모든 화면 크기) — 작품 목록 상단의 표시는 그대로 */
 .m-ast { display: none !important; }
 .ft-marq-in span::after { content: none !important; }
 </style>
